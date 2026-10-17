@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(#{upload.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <ol th:replace="~{fragments/layout :: steps(1)}"></ol>
+    <div class="card">
+        <h1 th:text="#{upload.heading}">Upload billing file</h1>
+        <p class="hint" th:text="#{upload.hint}">Choose the Excel file (.xlsx or .xls, up to 5 MB).
+            Keep the file name unchanged when uploading a corrected version of the same file.</p>
+
+        <form th:action="@{/billing/upload}" method="post" enctype="multipart/form-data">
+            <label for="file" th:text="#{upload.label.file}">Excel file</label>
+            <input type="file" id="file" name="file" accept=".xlsx,.xls">
+
+            <div class="error" role="alert" th:if="${error}" th:text="${error}">Error message</div>
+
+            <div class="actions">
+                <button type="submit" class="button" th:text="#{upload.button.submit}">Upload and continue</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(#{home.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <div class="card">
+        <h1 th:text="#{home.heading}">Welcome</h1>
+        <p class="hint" th:text="#{home.hint}">Upload the billing Excel file to review and send bills.</p>
+        <p class="actions" style="text-align: left">
+            <a class="button" th:href="@{/billing/upload}" th:text="#{home.button.upload}">Upload billing file</a>
+        </p>
+    </div>
+    <p class="status"><span th:text="#{home.status.system}">System: Database</span>
+        <strong th:if="${databaseReachable}" th:text="#{home.status.connected}">connected</strong>
+        <strong th:unless="${databaseReachable}" th:text="#{home.status.notReachable}">not reachable</strong>
+    </p>
+</main>
+</body>
+</html>

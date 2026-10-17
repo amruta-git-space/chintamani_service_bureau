@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(#{selected.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <ol th:replace="~{fragments/layout :: steps(2)}"></ol>
+    <div class="card">
+        <h1 th:if="${check.blocked()}" th:text="#{selected.heading.blocked}">This sheet cannot be processed yet</h1>
+        <h1 th:unless="${check.blocked()}" th:text="#{selected.heading}">Billing period selected</h1>
+        <p><span th:text="#{common.file}">File:</span> <strong th:text="${fileName}">Bill.xlsx</strong></p>
+        <p><span th:text="#{common.billingPeriod}">Billing Period:</span> <strong th:text="${sheetName}">Jul 15-30</strong></p>
+
+        <div th:if="${check.blocked()}">
+            <p class="hint" th:text="#{selected.blocked.hint}">Please correct the following in Excel, then upload the file again.</p>
+            <table class="issues">
+                <thead>
+                <tr>
+                    <th th:text="#{selected.blocked.column.where}">Where</th>
+                    <th th:text="#{selected.blocked.column.problem}">What is wrong</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="issue : ${check.result().blockingErrors()}">
+                    <td th:text="${issue.location()}">Cell A1</td>
+                    <td th:text="${issue.message()}">Message</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="actions">
+                <a th:href="@{/billing/sheets}" th:text="#{selected.blocked.link.otherSheet}">Choose another sheet</a>
+                &nbsp;&nbsp;
+                <a class="button" th:href="@{/billing/upload}" th:text="#{selected.blocked.button.otherFile}">Upload a different file</a>
+            </p>
+        </div>
+
+        <div th:unless="${check.blocked()}">
+            <div class="success" role="status" th:text="#{selected.success}">The sheet layout is correct.</div>
+            <p><span th:text="#{selected.dates.label}">Billing dates:</span>
+                <strong th:text="${#temporals.format(check.startDate(), 'dd-MMM-yyyy')}">15-Jul-2026</strong>
+                <span th:text="#{selected.dates.to}">to</span>
+                <strong th:text="${#temporals.format(check.endDate(), 'dd-MMM-yyyy')}">30-Jul-2026</strong>
+            </p>
+            <p><span th:text="#{selected.lineItems.label}">Line items found:</span> <strong th:text="${check.lineItemCount()}">3</strong></p>
+            <p class="hint" th:text="#{selected.nextStep.hint}">Checking each bill and showing the billing summary comes in the next step.</p>
+            <p class="actions" style="text-align: left">
+                <a class="button" th:href="@{/billing/upload}" th:text="#{selected.button.startOver}">Start over</a>
+            </p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

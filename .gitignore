@@ -1,0 +1,16 @@
+target/
+.idea/
+*.iml
+application-local.properties
+
+# Excel lock/temp files
+~$*
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Other local/IDE/runtime files
+.vscode/
+*.log
+.env
+.env.*

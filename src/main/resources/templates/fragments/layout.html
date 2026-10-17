@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="|${title} - #{app.name}|">Chintamani Service Bureau</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<header class="app-header" th:fragment="header">
+    <a th:href="@{/}" class="app-title" th:text="#{app.name}">Chintamani Service Bureau</a>
+</header>
+
+<!-- current: 1 = Upload file, 2 = Choose billing period -->
+<ol class="steps" th:fragment="steps(current)">
+    <li th:classappend="${current == 1} ? 'current'" th:text="#{steps.upload}">1. Upload file</li>
+    <li th:classappend="${current == 2} ? 'current'" th:text="#{steps.period}">2. Choose billing period</li>
+    <li class="pending" th:text="#{steps.review}">3. Review summary</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(#{period.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <ol th:replace="~{fragments/layout :: steps(2)}"></ol>
+    <div class="card">
+        <h1 th:text="#{period.heading}">Choose billing period</h1>
+        <div class="file-line">
+            <span><span th:text="#{common.file}">File:</span> <strong th:text="${fileName}">Bill.xlsx</strong></span>
+            <a th:href="@{/billing/upload}" th:text="#{period.link.otherFile}">Choose another file</a>
+        </div>
+
+        <form th:action="@{/billing/sheets}" method="post">
+            <label for="sheet" th:text="#{period.label.period}">Billing Period</label>
+            <select id="sheet" name="sheet">
+                <option value="" selected disabled th:text="#{period.option.placeholder}">-- Select a billing period --</option>
+                <option th:each="sheetName : ${sheetNames}" th:value="${sheetName}" th:text="${sheetName}">Jul 15-30</option>
+            </select>
+
+            <div class="error" role="alert" th:if="${error}" th:text="${error}">Error message</div>
+
+            <div class="actions">
+                <button type="submit" class="button" th:text="#{period.button.submit}">Continue</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
